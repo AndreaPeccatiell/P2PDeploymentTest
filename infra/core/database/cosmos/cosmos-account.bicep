@@ -28,7 +28,7 @@ resource cosmos 'Microsoft.DocumentDB/databaseAccounts@2022-08-15' = {
     databaseAccountOfferType: 'Standard'
     enableAutomaticFailover: false
     enableMultipleWriteLocations: false
-    apiProperties: (kind == 'MongoDB') ? { serverVersion: '4.2' } : {}
+    apiProperties: (kind == 'globalDocumentDB') ? { serverVersion: '4.2' } : {}
     capabilities: [ { name: 'EnableServerless' } ]
     publicNetworkAccess: 'Disabled'  // Disable public network access
     isVirtualNetworkFilterEnabled: true  // Enable virtual network filter
