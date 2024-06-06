@@ -88,7 +88,7 @@ module apiKeyVaultAccess './core/security/keyvault-access.bicep' = {
     principalId: api.outputs.SERVICE_API_IDENTITY_PRINCIPAL_ID
   }
 }
-/*
+
 // The application database
 module cosmos './app/db.bicep' = {
   name: 'cosmos'
@@ -101,7 +101,7 @@ module cosmos './app/db.bicep' = {
     keyVaultName: keyVault.outputs.name
   }
 }
-*/
+
 // Create an App Service Plan to group applications under the same payment plan and SKU
 module appServicePlan './core/host/appserviceplan.bicep' = {
   name: 'appserviceplan'
