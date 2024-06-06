@@ -1,4 +1,4 @@
-metadata description = 'Creates an Azure Cosmos DB account.'
+metadata description = 'Creates an Azure Cosmos DB account with SQL API.'
 param name string
 param location string = resourceGroup().location
 param tags object = {}
@@ -6,8 +6,8 @@ param tags object = {}
 param connectionStringKey string = 'AZURE-COSMOS-CONNECTION-STRING'
 param keyVaultName string
 
-@allowed([ 'GlobalDocumentDB', 'MongoDB', 'Parse' ])
-param kind string
+@allowed([ 'GlobalDocumentDB' ]) // Only SQL API
+param kind string = 'GlobalDocumentDB'
 
 resource cosmos 'Microsoft.DocumentDB/databaseAccounts@2022-08-15' = {
   name: name
@@ -28,7 +28,7 @@ resource cosmos 'Microsoft.DocumentDB/databaseAccounts@2022-08-15' = {
     databaseAccountOfferType: 'Standard'
     enableAutomaticFailover: false
     enableMultipleWriteLocations: false
-    apiProperties: (kind == 'MongoDB') ? { serverVersion: '4.2' } : {}
+    apiProperties: {} // No specific properties for SQL API
     capabilities: [ { name: 'EnableServerless' } ]
     publicNetworkAccess: 'Disabled'  // Disable public network access
     isVirtualNetworkFilterEnabled: true  // Enable virtual network filter

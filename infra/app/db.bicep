@@ -5,36 +5,60 @@ param tags object = {}
 param collections array = [
   {
     name: 'TodoList'
-    id: 'TodoList'
-    shardKey: 'Hash'
-    indexKey: '_id'
+    throughput: 400
+    indexKey: '/id'  // Ensure the partition key is appropriate for your data model
   }
   {
     name: 'TodoItem'
-    id: 'TodoItem'
-    shardKey: 'Hash'
-    indexKey: '_id'
+    throughput: 400
+    indexKey: '/id'  // Ensure the partition key is appropriate for your data model
   }
 ]
 param databaseName string = ''
 param keyVaultName string
 
-// Because databaseName is optional in main.bicep, we make sure the database name is set here.
 var defaultDatabaseName = 'Todo'
 var actualDatabaseName = !empty(databaseName) ? databaseName : defaultDatabaseName
 
-module cosmos '../core/database/cosmos/mongo/cosmos-mongo-db.bicep' = {
-  name: 'cosmos-mongo'
-  params: {
-    accountName: accountName
-    databaseName: actualDatabaseName
-    location: location
-    collections: collections
-    keyVaultName: keyVaultName
-    tags: tags
+resource cosmosSqlDatabase 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases@2022-08-15' = {
+  name: '${accountName}/${actualDatabaseName}'
+  location: location
+  properties: {
+    resource: {
+      id: actualDatabaseName
+    }
+    options: {}
   }
 }
 
-output connectionStringKey string = cosmos.outputs.connectionStringKey
-output databaseName string = cosmos.outputs.databaseName
-output endpoint string = cosmos.outputs.endpoint
+resource cosmosSqlContainers 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers@2022-08-15' = [for collection in collections: {
+  name: '${accountName}/${actualDatabaseName}/${collection.name}'
+  location: location
+  properties: {
+    resource: {
+      id: collection.name
+      indexingPolicy: {
+        indexingMode: 'consistent'
+        includedPaths: [
+          {
+            path: '/*'
+          }
+        ]
+      }
+      partitionKey: {
+        paths: [
+          collection.indexKey
+        ]
+        kind: 'Hash'
+      }
+      defaultTtl: -1
+    }
+    options: {
+      throughput: collection.throughput
+    }
+  }
+}]
+
+output connectionStringKey string = cosmosSqlDatabase.name
+output databaseName string = actualDatabaseName
+output endpoint string = cosmosSqlDatabase.properties.resource._self
