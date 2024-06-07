@@ -18,7 +18,11 @@ resource keyVault 'Microsoft.KeyVault/vaults@2022-07-01' = {
         permissions: { secrets: [ 'get', 'list' ] }
         tenantId: subscription().tenantId
       }
+      
     ] : []
+    enableSoftDelete: true
+    softDeleteRetentionInDays: 90
+    enablePurgeProtection: true
   }
 }
 
