@@ -5,6 +5,8 @@ param tags object = {}
 
 param connectionStringKey string = 'AZURE-COSMOS-CONNECTION-STRING'
 param keyVaultName string
+param publicNetworkAccess string
+param disableLocalAuth bool = true
 
 @allowed([ 'GlobalDocumentDB', 'MongoDB', 'Parse' ])
 param kind string
@@ -28,6 +30,8 @@ resource cosmos 'Microsoft.DocumentDB/databaseAccounts@2022-08-15' = {
     enableMultipleWriteLocations: false
     apiProperties: (kind == 'MongoDB') ? { serverVersion: '4.2' } : {}
     capabilities: [ { name: 'EnableServerless' } ]
+    publicNetworkAccess: publicNetworkAccess
+    disableLocalAuth: disableLocalAuth
   }
 }
 

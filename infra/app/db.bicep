@@ -1,7 +1,8 @@
 param accountName string
 param location string = resourceGroup().location
 param tags object = {}
-
+param publicNetworkAccess string
+param disableLocalAuth bool = true
 param collections array = [
   {
     name: 'TodoList'
@@ -32,6 +33,8 @@ module cosmos '../core/database/cosmos/mongo/cosmos-mongo-db.bicep' = {
     collections: collections
     keyVaultName: keyVaultName
     tags: tags
+    publicNetworkAccess: publicNetworkAccess
+    disableLocalAuth: disableLocalAuth
   }
 }
 

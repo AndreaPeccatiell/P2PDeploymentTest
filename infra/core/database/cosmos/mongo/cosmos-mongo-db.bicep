@@ -3,7 +3,8 @@ param accountName string
 param databaseName string
 param location string = resourceGroup().location
 param tags object = {}
-
+param publicNetworkAccess string
+param disableLocalAuth bool = true
 param collections array = []
 param connectionStringKey string = 'AZURE-COSMOS-CONNECTION-STRING'
 param keyVaultName string
@@ -16,6 +17,8 @@ module cosmos 'cosmos-mongo-account.bicep' = {
     keyVaultName: keyVaultName
     tags: tags
     connectionStringKey: connectionStringKey
+    publicNetworkAccess: publicNetworkAccess
+    disableLocalAuth: disableLocalAuth
   }
 }
 

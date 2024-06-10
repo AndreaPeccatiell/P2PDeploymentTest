@@ -45,6 +45,148 @@ resource rg 'Microsoft.Resources/resourceGroups@2021-04-01' = {
   tags: tags
 }
 
+// Add Cosmos DB parameters from the provided snippet
+@description('Required. Locations enabled for the Cosmos DB account.')
+param cosmosLocations array
+
+@allowed([
+  'Eventual'
+  'ConsistentPrefix'
+  'Session'
+  'BoundedStaleness'
+  'Strong'
+])
+@description('Optional. The default consistency level of the Cosmos DB account.')
+param defaultConsistencyLevel string = 'Session'
+
+@description('Optional. Enable automatic failover for regions.')
+param automaticFailover bool = true
+
+@description('Optional. Flag to indicate whether Free Tier is enabled.')
+param enableFreeTier bool = false
+
+@minValue(10)
+@maxValue(2147483647)
+@description('Optional. Max stale requests. Required for BoundedStaleness. Valid ranges, Single Region: 10 to 1000000. Multi Region: 100000 to 1000000.')
+param maxStalenessPrefix int = 100000
+
+@minValue(5)
+@maxValue(86400)
+@description('Optional. Max lag time (minutes). Required for BoundedStaleness. Valid ranges, Single Region: 5 to 84600. Multi Region: 300 to 86400.')
+param maxIntervalInSeconds int = 300
+
+@description('Optional. Specifies the MongoDB server version to use.')
+@allowed([
+  '3.2'
+  '3.6'
+  '4.0'
+  '4.2'
+])
+param serverVersion string = '4.2'
+
+@description('Optional. SQL Databases configurations.')
+param sqlDatabases array = []
+
+@description('Optional. MongoDB Databases configurations.')
+param mongodbDatabases array = []
+
+@description('Optional. Gremlin Databases configurations.')
+param gremlinDatabases array = []
+
+@description('Optional. Deny public network access.')
+param publicNetworkAccess string = 'Disabled'
+
+@allowed([
+  ''
+  'CanNotDelete'
+  'ReadOnly'
+])
+@description('Optional. Specify the type of lock.')
+param lock string = ''
+
+@description('Optional. Array of role assignment objects that contain the \'roleDefinitionIdOrName\' and \'principalIds\' to define RBAC role assignments on this resource. In the roleDefinitionIdOrName attribute, you can provide either the display name of the role definition, or its fully qualified ID in the following format: \'/providers/Microsoft.Authorization/roleDefinitions/c2f4ef07-c644-48eb-af81-4b1b4947fb11\'.')
+param roleAssignments array = []
+
+@description('Optional. Resource ID of the diagnostic storage account.')
+param diagnosticStorageAccountId string = ''
+
+@description('Optional. Resource ID of the log analytics workspace.')
+param diagnosticWorkspaceId string = ''
+
+@description('Optional. The name of logs that will be streamed. "allLogs" includes all possible logs for the resource.')
+@allowed([
+  'allLogs'
+  'DataPlaneRequests'
+  'MongoRequests'
+  'QueryRuntimeStatistics'
+  'PartitionKeyStatistics'
+  'PartitionKeyRUConsumption'
+  'ControlPlaneRequests'
+  'CassandraRequests'
+  'GremlinRequests'
+  'TableApiRequests'
+])
+param diagnosticLogCategoriesToEnable array = [
+  'allLogs'
+]
+
+@description('Optional. The name of metrics that will be streamed.')
+@allowed([
+  'Requests'
+])
+param diagnosticMetricsToEnable array = [
+  'Requests'
+]
+
+@description('Optional. The name of the diagnostic setting, if deployed. If left empty, it defaults to "<resourceName>-diagnosticSettings".')
+param diagnosticSettingsName string = ''
+
+@allowed([
+  'EnableCassandra'
+  'EnableTable'
+  'EnableGremlin'
+  'EnableMongo'
+  'DisableRateLimitingResponses'
+  'EnableServerless'
+])
+@description('Optional. List of Cosmos DB capabilities for the account.')
+param capabilitiesToAdd array = []
+
+@allowed([
+  'Periodic'
+  'Continuous'
+])
+@description('Optional. Describes the mode of backups.')
+param backupPolicyType string = 'Continuous'
+
+@allowed([
+  'Continuous30Days'
+  'Continuous7Days'
+])
+@description('Optional. Configuration values for continuous mode backup.')
+param backupPolicyContinuousTier string = 'Continuous30Days'
+
+@minValue(60)
+@maxValue(1440)
+@description('Optional. An integer representing the interval in minutes between two backups. Only applies to periodic backup type.')
+param backupIntervalInMinutes int = 240
+
+@minValue(2)
+@maxValue(720)
+@description('Optional. An integer representing the time (in hours) that each backup is retained. Only applies to periodic backup type.')
+param backupRetentionIntervalInHours int = 8
+
+@allowed([
+  'Geo'
+  'Local'
+  'Zone'
+])
+@description('Optional. Enum to indicate type of backup residency. Only applies to periodic backup type.')
+param backupStorageRedundancy string = 'Local'
+
+@description('Optional. Disable Local Authentication. Default is true.')
+param disableLocalAuth bool = true
+
 // The application frontend
 module web './app/web.bicep' = {
   name: 'web'
@@ -89,7 +231,7 @@ module apiKeyVaultAccess './core/security/keyvault-access.bicep' = {
   }
 }
 
-// The application database
+// The application database - integrated Cosmos DB module
 module cosmos './app/db.bicep' = {
   name: 'cosmos'
   scope: rg
@@ -99,6 +241,9 @@ module cosmos './app/db.bicep' = {
     location: location
     tags: tags
     keyVaultName: keyVault.outputs.name
+    // Additional parameters from the provided module
+    publicNetworkAccess: publicNetworkAccess
+    disableLocalAuth: disableLocalAuth
   }
 }
 
