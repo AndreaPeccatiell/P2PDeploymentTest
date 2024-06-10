@@ -47,7 +47,13 @@ resource rg 'Microsoft.Resources/resourceGroups@2021-04-01' = {
 
 // Add Cosmos DB parameters from the provided snippet
 @description('Required. Locations enabled for the Cosmos DB account.')
-param cosmosLocations array
+param cosmosLocations array = [
+  {
+    locationName: 'centralus'
+    failoverPriority: 0
+    isZoneRedundant: false
+  }
+]
 
 @allowed([
   'Eventual'
@@ -241,7 +247,6 @@ module cosmos './app/db.bicep' = {
     location: location
     tags: tags
     keyVaultName: keyVault.outputs.name
-    // Additional parameters from the provided module
     publicNetworkAccess: publicNetworkAccess
     disableLocalAuth: disableLocalAuth
   }
