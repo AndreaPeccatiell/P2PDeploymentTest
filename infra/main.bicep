@@ -236,39 +236,7 @@ module apiKeyVaultAccess './core/security/keyvault-access.bicep' = {
   }
 }
 
-// The application database - integrated Cosmos DB module
-
-resource cosmos 'Microsoft.Resources/deploymentScripts@2019-10-01' = {
-  name: 'cosmos'
-  location: location
-  properties: {
-    azCliVersion: '2.20.0'
-    scriptContent: '''
-      az cosmosdb create \
-        --name cosmos-2hejwpgq2bmtg \
-        --resource-group rg-p2p-mailconf-env \
-        --kind MongoDB \
-        --locations regionName=centralus failoverPriority=0 isZoneRedundant=False \
-        --default-consistency-level Session \
-        --enable-automatic-failover false \
-        --enable-multiple-write-locations false \
-        --disable-key-based-metadata-write-access true \
-        --public-network-access Disabled \
-        --capabilities EnableMongo
-
-      CONNECTION_STRING=$(az cosmosdb keys list --name cosmos-2hejwpgq2bmtg --resource-group rg-p2p-mailconf-env --type connection-strings --query 'connectionStrings[0].connectionString' -o tsv)
-      DATABASE_ENDPOINT=$(az cosmosdb show --name cosmos-2hejwpgq2bmtg --resource-group rg-p2p-mailconf-env --query 'documentEndpoint' -o tsv)
-      DATABASE_NAME='Todo'
-
-      echo "CONNECTION_STRING=$CONNECTION_STRING" > $AZ_SCRIPTS_OUTPUT_PATH
-      echo "DATABASE_ENDPOINT=$DATABASE_ENDPOINT" >> $AZ_SCRIPTS_OUTPUT_PATH
-      echo "DATABASE_NAME=$DATABASE_NAME" >> $AZ_SCRIPTS_OUTPUT_PATH
-    '''
-    timeout: 'PT30M'
-    cleanupPreference: 'OnSuccess'
-    outputs: {}
-  }
-}
+//
 
 // Create an App Service Plan to group applications under the same payment plan and SKU
 module appServicePlan './core/host/appserviceplan.bicep' = {

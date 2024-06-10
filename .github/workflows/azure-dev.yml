@@ -66,6 +66,24 @@ jobs:
           AZURE_LOCATION: ${{ vars.AZURE_LOCATION }}
           AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
 
+        - name: Create Cosmos DB
+        run: |
+          az cosmosdb create \
+            --name cosmos-2hejwpgq2bmtg \
+            --resource-group rg-p2p-mailconf-env \
+            --kind MongoDB \
+            --locations regionName=centralus failoverPriority=0 isZoneRedundant=False \
+            --default-consistency-level Session \
+            --enable-automatic-failover false \
+            --enable-multiple-write-locations false \
+            --disable-key-based-metadata-write-access true \
+            --public-network-access Disabled \
+            --capabilities EnableMongo
+        env:
+          AZURE_ENV_NAME: ${{ vars.AZURE_ENV_NAME }}
+          AZURE_LOCATION: ${{ vars.AZURE_LOCATION }}
+          AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+
       - name: Deploy Application
         run: azd deploy --no-prompt
         env:
