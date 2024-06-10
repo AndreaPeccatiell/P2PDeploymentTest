@@ -7,7 +7,7 @@ param connectionStringKey string = 'AZURE-COSMOS-CONNECTION-STRING'
 param keyVaultName string
 param publicNetworkAccess string
 param disableLocalAuth bool = true
-
+param disableKeyBasedMetadataWriteAccess = true
 @allowed([ 'GlobalDocumentDB', 'MongoDB', 'Parse' ])
 param kind string
 
@@ -32,6 +32,7 @@ resource cosmos 'Microsoft.DocumentDB/databaseAccounts@2022-08-15' = {
     capabilities: [ { name: 'EnableServerless' } ]
     publicNetworkAccess: publicNetworkAccess
     disableLocalAuth: disableLocalAuth
+    disableKeyBasedMetadataWriteAccess: disableKeyBasedMetadataWriteAccess
   }
 }
 

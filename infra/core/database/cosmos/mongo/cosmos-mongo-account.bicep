@@ -2,7 +2,7 @@ metadata description = 'Creates an Azure Cosmos DB for MongoDB account.'
 param name string
 param location string = resourceGroup().location
 param tags object = {}
-
+param disableKeyBasedMetadataWriteAccess bool = true
 param keyVaultName string
 param connectionStringKey string = 'AZURE-COSMOS-CONNECTION-STRING'
 param publicNetworkAccess string
@@ -19,6 +19,7 @@ module cosmos '../../cosmos/cosmos-account.bicep' = {
     tags: tags
     publicNetworkAccess: publicNetworkAccess
     disableLocalAuth: disableLocalAuth
+    disableKeyBasedMetadataWriteAccess: disableKeyBasedMetadataWriteAccess
   }
 }
 
