@@ -220,9 +220,7 @@ module api './app/api.bicep' = {
     keyVaultName: keyVault.outputs.name
     allowedOrigins: [ web.outputs.SERVICE_WEB_URI ]
     appSettings: {
-      AZURE_COSMOS_CONNECTION_STRING_KEY: cosmos.outputs.connectionStringKey
-      AZURE_COSMOS_DATABASE_NAME: cosmos.outputs.databaseName
-      AZURE_COSMOS_ENDPOINT: cosmos.outputs.endpoint
+ 
       API_ALLOW_ORIGINS: web.outputs.SERVICE_WEB_URI
     }
   }
@@ -340,9 +338,7 @@ module apimApi './app/apim-api.bicep' = if (useAPIM) {
   }
 }
 
-// Data outputs
-output AZURE_COSMOS_CONNECTION_STRING_KEY string = cosmos.outputs.connectionStringKey
-output AZURE_COSMOS_DATABASE_NAME string = cosmos.outputs.databaseName
+
 
 // App outputs
 output APPLICATIONINSIGHTS_CONNECTION_STRING string = monitoring.outputs.applicationInsightsConnectionString
