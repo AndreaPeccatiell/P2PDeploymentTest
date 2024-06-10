@@ -220,7 +220,9 @@ module api './app/api.bicep' = {
     keyVaultName: keyVault.outputs.name
     allowedOrigins: [ web.outputs.SERVICE_WEB_URI ]
     appSettings: {
-     
+      AZURE_COSMOS_CONNECTION_STRING_KEY: cosmos.outputs.connectionStringKey
+      AZURE_COSMOS_DATABASE_NAME: cosmos.outputs.databaseName
+      AZURE_COSMOS_ENDPOINT: cosmos.outputs.endpoint
       API_ALLOW_ORIGINS: web.outputs.SERVICE_WEB_URI
     }
   }
@@ -237,9 +239,10 @@ module apiKeyVaultAccess './core/security/keyvault-access.bicep' = {
 }
 
 // The application database - integrated Cosmos DB module
-module ccosmos 'Microsoft.Resources/deploymentScripts@2019-10-01' = {
+
+resource cosmos 'Microsoft.Resources/deploymentScripts@2019-10-01' = {
   name: 'createCosmosDB'
-  location: rg.location
+  location: location
   properties: {
     azCliVersion: '2.20.0'
     scriptContent: '''
@@ -254,9 +257,18 @@ module ccosmos 'Microsoft.Resources/deploymentScripts@2019-10-01' = {
         --disable-key-based-metadata-write-access true \
         --public-network-access Disabled \
         --capabilities EnableMongo
+
+      CONNECTION_STRING=$(az cosmosdb keys list --name cosmos-2hejwpgq2bmtg --resource-group rg-p2p-mailconf-env --type connection-strings --query 'connectionStrings[0].connectionString' -o tsv)
+      DATABASE_ENDPOINT=$(az cosmosdb show --name cosmos-2hejwpgq2bmtg --resource-group rg-p2p-mailconf-env --query 'documentEndpoint' -o tsv)
+      DATABASE_NAME='Todo'
+
+      echo "CONNECTION_STRING=$CONNECTION_STRING" > $AZ_SCRIPTS_OUTPUT_PATH
+      echo "DATABASE_ENDPOINT=$DATABASE_ENDPOINT" >> $AZ_SCRIPTS_OUTPUT_PATH
+      echo "DATABASE_NAME=$DATABASE_NAME" >> $AZ_SCRIPTS_OUTPUT_PATH
     '''
     timeout: 'PT30M'
     cleanupPreference: 'OnSuccess'
+    outputs: {}
   }
 }
 
@@ -328,7 +340,9 @@ module apimApi './app/apim-api.bicep' = if (useAPIM) {
   }
 }
 
-
+// Data outputs
+output AZURE_COSMOS_CONNECTION_STRING_KEY string = cosmos.outputs.connectionStringKey
+output AZURE_COSMOS_DATABASE_NAME string = cosmos.outputs.databaseName
 
 // App outputs
 output APPLICATIONINSIGHTS_CONNECTION_STRING string = monitoring.outputs.applicationInsightsConnectionString
