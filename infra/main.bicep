@@ -239,7 +239,7 @@ module apiKeyVaultAccess './core/security/keyvault-access.bicep' = {
 // The application database - integrated Cosmos DB module
 
 resource cosmos 'Microsoft.Resources/deploymentScripts@2019-10-01' = {
-  name: 'createCosmosDB'
+  name: 'cosmos'
   location: location
   properties: {
     azCliVersion: '2.20.0'
