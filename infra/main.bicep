@@ -147,6 +147,7 @@ param diagnosticMetricsToEnable array = [
 @description('Optional. The name of the diagnostic setting, if deployed. If left empty, it defaults to "<resourceName>-diagnosticSettings".')
 param diagnosticSettingsName string = ''
 
+param disableKeyBasedMetadataWriteAccess bool = true
 @allowed([
   'EnableCassandra'
   'EnableTable'
@@ -219,9 +220,7 @@ module api './app/api.bicep' = {
     keyVaultName: keyVault.outputs.name
     allowedOrigins: [ web.outputs.SERVICE_WEB_URI ]
     appSettings: {
-      AZURE_COSMOS_CONNECTION_STRING_KEY: cosmos.outputs.connectionStringKey
-      AZURE_COSMOS_DATABASE_NAME: cosmos.outputs.databaseName
-      AZURE_COSMOS_ENDPOINT: cosmos.outputs.endpoint
+     
       API_ALLOW_ORIGINS: web.outputs.SERVICE_WEB_URI
     }
   }
@@ -238,17 +237,26 @@ module apiKeyVaultAccess './core/security/keyvault-access.bicep' = {
 }
 
 // The application database - integrated Cosmos DB module
-module cosmos './app/db.bicep' = {
-  name: 'cosmos'
-  scope: rg
-  params: {
-    accountName: !empty(cosmosAccountName) ? cosmosAccountName : '${abbrs.documentDBDatabaseAccounts}${resourceToken}'
-    databaseName: cosmosDatabaseName
-    location: location
-    tags: tags
-    keyVaultName: keyVault.outputs.name
-    publicNetworkAccess: publicNetworkAccess
-    disableLocalAuth: disableLocalAuth
+module ccosmos 'Microsoft.Resources/deploymentScripts@2019-10-01' = {
+  name: 'createCosmosDB'
+  location: rg.location
+  properties: {
+    azCliVersion: '2.20.0'
+    scriptContent: '''
+      az cosmosdb create \
+        --name cosmos-2hejwpgq2bmtg \
+        --resource-group rg-p2p-mailconf-env \
+        --kind MongoDB \
+        --locations regionName=centralus failoverPriority=0 isZoneRedundant=False \
+        --default-consistency-level Session \
+        --enable-automatic-failover false \
+        --enable-multiple-write-locations false \
+        --disable-key-based-metadata-write-access true \
+        --public-network-access Disabled \
+        --capabilities EnableMongo
+    '''
+    timeout: 'PT30M'
+    cleanupPreference: 'OnSuccess'
   }
 }
 
@@ -320,9 +328,7 @@ module apimApi './app/apim-api.bicep' = if (useAPIM) {
   }
 }
 
-// Data outputs
-output AZURE_COSMOS_CONNECTION_STRING_KEY string = cosmos.outputs.connectionStringKey
-output AZURE_COSMOS_DATABASE_NAME string = cosmos.outputs.databaseName
+
 
 // App outputs
 output APPLICATIONINSIGHTS_CONNECTION_STRING string = monitoring.outputs.applicationInsightsConnectionString
