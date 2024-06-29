@@ -1,0 +1,12 @@
+/* Arrow.module.css */
+
+.arrow {
+    font-size: 150px; /* Make the arrow large */
+    color: #ac2e2e;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 20px; /* Space around the arrow */
+    z-index: 1000; /* Ensure it appears above other components */
+  }
+  

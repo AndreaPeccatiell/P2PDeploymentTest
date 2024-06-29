@@ -1,0 +1,37 @@
+/* LoadingBar.module.css */
+
+.loadingBar {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 300px; /* Increased width */
+    height: 70px; /* Increased height */
+    background-color: #ac2e2e;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    border: 2px solid white; /* Added border */
+    z-index: 1000;
+    transform: translateX(200%);
+    transition: transform 0.5s ease-in-out;
+  }
+  
+  .show {
+    transform: translateX(0);
+  }
+  
+  .loadingBarProgress {
+    animation: slideIn 0.5s forwards;
+  }
+  
+  @keyframes slideIn {
+    from {
+      transform: translateX(200%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+  
