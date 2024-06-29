@@ -26,7 +26,7 @@ export const LillyDocumentDetect: FC<Props> = memo(function LillyDocumentDetect(
   const [pdfSignatures, setPdfSignatures] = useState<any[]>([]);
   const [imageCount, setImageCount] = useState(0);
   const [showLoadingBar, setShowLoadingBar] = useState(false);
-  const [imageData, setImageData] = useState<Record<string, string[]>>({});
+
   const [firstImageUrls, setFirstImageUrls] = useState<Record<string, string>>({});
 
   useEffect(() => {
@@ -124,7 +124,7 @@ export const LillyDocumentDetect: FC<Props> = memo(function LillyDocumentDetect(
 
       if (response.ok) {
         const data = await response.json();
-        setImageData(data);
+  
         console.log('Image Data:', data);
         // Store the first image URL for each PDF
         const newFirstImageUrls = Object.keys(data).reduce((acc, key) => {
@@ -180,14 +180,7 @@ export const LillyDocumentDetect: FC<Props> = memo(function LillyDocumentDetect(
       </div>
 
       <div className={classes.middleSection}>
-        <ArrowCircleLeft
-          className={classes.arrowCircleLeft}
-          swap={{
-            icon: <ArrowCircleLeftIcon className={classes.icon2} />,
-          }}
-          onClick={() => handleArrowClick('left')}
-        />
-
+       
         <BigFrame
           className={classes.bigFrame}
           pdfUrl={pdfUrl}
@@ -207,13 +200,7 @@ export const LillyDocumentDetect: FC<Props> = memo(function LillyDocumentDetect(
           showInfoFrame={false}
         />
 
-        <ArrowCircleRight
-          className={classes.arrowCircleRight}
-          swap={{
-            icon: <ArrowCircleRightIcon className={classes.icon} />,
-          }}
-          onClick={() => handleArrowClick('right')}
-        />
+    
       </div>
 
       <div className={classes.bottomSection}>

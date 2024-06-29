@@ -13,7 +13,7 @@ interface Props {
 /* @figmaId 62:599 */
 export const ButtonSecondary_StyleDark: FC<Props> = memo(function ButtonSecondary_StyleDark(props = {}) {
   return (
-    <button className={`${resets.clapyResets} ${classes.root}`}>
+    <button className={`${classes.root}`}>
       {props.text?.label != null ? props.text?.label : <div className={classes.label}>Secondary</div>}
     </button>
   );
