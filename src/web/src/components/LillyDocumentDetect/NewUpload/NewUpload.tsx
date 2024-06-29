@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import type { FC } from 'react';
 
-import resets from './resets.css';
+
 import { Group5Icon } from './Group5Icon.tsx';
 import classes from './NewUpload.module.css';
 import { Toggle_StateLeft } from './Toggle_StateLeft/Toggle_StateLeft.tsx';
@@ -10,7 +10,7 @@ interface Props {
   className?: string;
 }
 /* @figmaId 87:35 */
-export const NewUpload: FC<Props> = memo(function NewUpload(props = {}) {
+export const NewUpload: FC<Props> = memo(function NewUpload() {
   return (
     <div className={` ${classes.root}`}>
       <div className={classes.bg}></div>

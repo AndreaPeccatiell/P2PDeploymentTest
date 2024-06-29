@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import type { FC } from 'react';
 
-import resets from './resets.css';
+
 import { ButtonSecondary_StyleDark } from '../ButtonSecondary_StyleDark/ButtonSecondary_StyleDark.tsx';
 import { ButtonSecondary_StyleLight } from '../ButtonSecondary_StyleLight/ButtonSecondary_StyleLight.tsx';
 import classes from './Toggle_StateLeft.module.css';

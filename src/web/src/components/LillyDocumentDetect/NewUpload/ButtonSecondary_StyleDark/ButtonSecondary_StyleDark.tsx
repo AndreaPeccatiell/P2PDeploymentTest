@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import type { FC, ReactNode } from 'react';
 
-import resets from './resets.css'
+
 import classes from './ButtonSecondary_StyleDark.module.css';
 
 interface Props {

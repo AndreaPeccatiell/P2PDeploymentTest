@@ -1,11 +1,6 @@
 
 import { memo, useState, useEffect } from 'react';
 import type { FC } from 'react';
-import resets from '../_resets.module.css';
-import { ArrowCircleLeft } from './ArrowCircleLeft/ArrowCircleLeft.tsx';
-import { ArrowCircleLeftIcon } from './ArrowCircleLeftIcon.tsx';
-import { ArrowCircleRight } from './ArrowCircleRight/ArrowCircleRight.tsx';
-import { ArrowCircleRightIcon } from './ArrowCircleRightIcon.tsx';
 import classes from './LillyDocumentDetect.module.css';
 import { BigFrame } from './BigFrame/BigFrame.tsx';
 import LoadingBar from './LoadingBar.tsx';
@@ -15,12 +10,12 @@ interface Props {
   className?: string;
 }
 
-export const LillyDocumentDetect: FC<Props> = memo(function LillyDocumentDetect(props = {}) {
+export const LillyDocumentDetect: FC<Props> = memo(function LillyDocumentDetect() {
   const [fileName, setFileName] = useState('');
   const [articles, setArticles] = useState<string[]>([]);
-  const [currentFolderIndex, setCurrentFolderIndex] = useState(0);
+  const [currentFolderIndex] = useState(0);
   const [folders, setFolders] = useState<string[]>([]);
-  const [jsonData, setJsonData] = useState<Record<string, string[]>>({});
+ 
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const [pdfMetadata, setPdfMetadata] = useState<Record<string, string | null>>({});
   const [pdfSignatures, setPdfSignatures] = useState<any[]>([]);
@@ -36,7 +31,6 @@ export const LillyDocumentDetect: FC<Props> = memo(function LillyDocumentDetect(
         if (response.ok) {
           const data = await response.json();
           console.log('API Response:', data);
-          setJsonData(data);
           const folderNames = Object.keys(data);
           setFolders(folderNames);
           setArticles(data[folderNames[0]]);
@@ -102,15 +96,7 @@ export const LillyDocumentDetect: FC<Props> = memo(function LillyDocumentDetect(
     }
   };
 
-  const handleArrowClick = (direction: 'right' | 'left') => {
-    setCurrentFolderIndex((prevIndex) => {
-      const newIndex = direction === 'right'
-        ? (prevIndex + 1) % folders.length
-        : (prevIndex - 1 + folders.length) % folders.length;
-      setArticles(jsonData[folders[newIndex]]);
-      return newIndex;
-    });
-  };
+
 
   const handleAnalyzeClick = async () => {
     setShowLoadingBar(true);
@@ -146,7 +132,7 @@ export const LillyDocumentDetect: FC<Props> = memo(function LillyDocumentDetect(
   };
 
   return (
-    <div className={`${resets.clapyResets} ${classes.root}`}>
+    <div className={`${classes.root}`}>
       <LoadingBar show={showLoadingBar} />
       <div className={classes.rectangle359}>
         <div className={`${classes.rectangle370}`}></div>
