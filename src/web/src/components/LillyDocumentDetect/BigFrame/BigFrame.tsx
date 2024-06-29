@@ -8,14 +8,19 @@ interface Props {
   pdfMetadata: Record<string, string | null>;
   pdfSignatures: any[];
   imageCount: number;
-  showInfoFrame?: boolean; // Add showInfoFrame prop
+  showInfoFrame?: boolean;
 }
 
-export const BigFrame: FC<Props> = memo(function BigFrame(props = {}) {
-  const { pdfUrl, pdfMetadata, pdfSignatures, imageCount, showInfoFrame = true } = props;
-
+export const BigFrame: FC<Props> = memo(function BigFrame({
+  className,
+  pdfUrl,
+  pdfMetadata,
+  pdfSignatures,
+  imageCount,
+  showInfoFrame = true,
+}) {
   return (
-    <div className={`${classes.root} ${props.className}`}>
+    <div className={`${classes.root} ${className}`}>
       {pdfUrl ? (
         <div className={classes.pdfContainer}>
           <iframe src={pdfUrl} className={classes.pdfIframe}></iframe>

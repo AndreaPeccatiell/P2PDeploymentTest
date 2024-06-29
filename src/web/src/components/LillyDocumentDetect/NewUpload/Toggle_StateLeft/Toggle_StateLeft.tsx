@@ -15,7 +15,7 @@ interface Props {
 /* @figmaId 62:689 */
 export const Toggle_StateLeft: FC<Props> = memo(function Toggle_StateLeft(props = {}) {
   return (
-    <div className={`${resets.clapyResets} ${props.classes?.root || ''} ${props.className || ''} ${classes.root}`}>
+    <div className={` ${props.classes?.root || ''} ${props.className || ''} ${classes.root}`}>
       <ButtonSecondary_StyleDark
         text={{
           label: <div className={classes.label}>New Upload</div>,

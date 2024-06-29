@@ -12,7 +12,7 @@ interface Props {
 /* @figmaId 87:35 */
 export const NewUpload: FC<Props> = memo(function NewUpload(props = {}) {
   return (
-    <div className={`${resets.clapyResets} ${classes.root}`}>
+    <div className={` ${classes.root}`}>
       <div className={classes.bg}></div>
       <Toggle_StateLeft className={classes.toggle} />
       <div className={classes.group5}>

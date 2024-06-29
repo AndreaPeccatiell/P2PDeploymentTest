@@ -1,3 +1,4 @@
+
 import { memo, useState, useEffect } from 'react';
 import type { FC } from 'react';
 import resets from '../_resets.module.css';
@@ -7,8 +8,8 @@ import { ArrowCircleRight } from './ArrowCircleRight/ArrowCircleRight.tsx';
 import { ArrowCircleRightIcon } from './ArrowCircleRightIcon.tsx';
 import classes from './LillyDocumentDetect.module.css';
 import { BigFrame } from './BigFrame/BigFrame.tsx';
-import LoadingBar from './LoadingBar.tsx'; // Import the LoadingBar component
-import Arrow from './Arrow.tsx'; // Import the Arrow component
+import LoadingBar from './LoadingBar.tsx';
+import Arrow from './Arrow.tsx';
 
 interface Props {
   className?: string;
@@ -148,10 +149,9 @@ export const LillyDocumentDetect: FC<Props> = memo(function LillyDocumentDetect(
     <div className={`${resets.clapyResets} ${classes.root}`}>
       <LoadingBar show={showLoadingBar} />
       <div className={classes.rectangle359}>
-        
-      <div className={`${classes.rectangle370}`}></div>
+        <div className={`${classes.rectangle370}`}></div>
         <h2 style={{ paddingTop: '30px', color: 'white', paddingLeft: '50px' }}>Files List</h2>
-        <div style={{ paddingTop: '50px', paddingLeft: '50px' }}> {/* Adjust the padding value as needed */}
+        <div style={{ paddingTop: '50px', paddingLeft: '50px' }}>
           {articles.map((article, index) => (
             <div
               key={index}
@@ -171,7 +171,6 @@ export const LillyDocumentDetect: FC<Props> = memo(function LillyDocumentDetect(
             </div>
           ))}
         </div>
-       
         <div className={classes.lILLYDETECT}>
           <p className={classes.labelWrapper5}>
             <span className={classes.label3}>LILLY </span>
@@ -197,12 +196,15 @@ export const LillyDocumentDetect: FC<Props> = memo(function LillyDocumentDetect(
           imageCount={imageCount}
         />
 
-        {showLoadingBar && <Arrow />} {/* Show arrow between BigFrames when loading */}
+        {showLoadingBar && <Arrow />}
 
         <BigFrame
           className={classes.bigFrame}
           pdfUrl={firstImageUrls[fileName] ? `http://localhost:8000/${firstImageUrls[fileName]}` : null}
-          showInfoFrame={false} /* Hide info frame for the right BigFrame */
+          pdfMetadata={{}} // Provide empty object for optional props
+          pdfSignatures={[]} // Provide empty array for optional props
+          imageCount={0} // Provide default value for optional props
+          showInfoFrame={false}
         />
 
         <ArrowCircleRight
@@ -223,14 +225,7 @@ export const LillyDocumentDetect: FC<Props> = memo(function LillyDocumentDetect(
             <p>Analyze Image</p>
           </div>
         </div>
-
-        <div className={classes.rectangle363}>
-        
-
-
-        </div>
-
-  
+        <div className={classes.rectangle363}></div>
       </div>
     </div>
   );
