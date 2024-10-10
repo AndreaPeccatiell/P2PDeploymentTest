@@ -24,7 +24,7 @@ jobs:
       AZURE_TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
       AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
       AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
-      AZURE_RESOURCE_GROUP: rg-p2p-mailconf-env
+      AZURE_RESOURCE_GROUP: rg-p2p-mailconf-env2
     steps:
       - name: Checkout
         uses: actions/checkout@v4
