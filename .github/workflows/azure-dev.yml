@@ -40,7 +40,9 @@ jobs:
           ARTIFACTORY_AUTH_TOKEN: ${{ secrets.ARTIFACTORY_AUTH_TOKEN }}
 
       - name: Install NPM dependencies
-        run: npm install
+        run: |
+          cd src/web  # Change to the directory where package.json exists
+          npm install
 
       - name: Log in with Azure (Federated Credentials)
         if: ${{ env.AZURE_CLIENT_ID != '' }}
