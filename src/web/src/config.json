@@ -1,0 +1,32 @@
+{
+    "MockConfig": {
+        "Enable": false
+    },
+    "Environment": {
+        "dev": {
+            "API_URL": "https://4ccfk7q5n9.execute-api.us-east-2.amazonaws.com/Dev", 
+            "clientId": "9b967b1e-6ad3-4d79-9916-b543f2f6c5ce",
+            "scopes": [
+                "api://39b64b04-e385-4232-a4e2-604367e2d849/ApiGateway"
+            ],
+            "groups": {}
+        },
+        "prod": {
+            "API_URL": "https://vfmogqq2oc.execute-api.us-east-2.amazonaws.com/Prod",
+            "clientId": "e0b819f0-49df-4bec-8fde-1cb4791b773e",
+            "scopes": [
+                "api://39b64b04-e385-4232-a4e2-604367e2d849/ApiGateway"
+            ],
+            "groups": {}
+        },
+        "qa": {
+            "API_URL": "https://e7gmllnl27.execute-api.us-east-2.amazonaws.com/QA",
+            "clientId": "5fe3da10-51ed-421f-b242-69b1300bb5d0",
+            "scopes": [
+                "api://39b64b04-e385-4232-a4e2-604367e2d849/ApiGateway"
+            ],
+            "groups": {}
+        }
+    }
+}
+

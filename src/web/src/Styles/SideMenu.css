@@ -1,0 +1,143 @@
+.reportDiv {
+    position: relative;
+    display: inline-block;
+}
+
+.reportDiv .tooltiptexttrigger,
+.reportDiv .tooltiptextpreviewconcur,
+.reportDiv .tooltiptextdownloadconcur,
+.reportDiv .tooltiptextpreviewocr {
+    visibility: hidden;
+    width: 130px;
+    background-color: black;
+    color: white;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.reportDiv:hover .tooltiptexttrigger,
+.reportDiv:hover .tooltiptextpreviewconcur,
+.reportDiv:hover .tooltiptextdownloadconcur,
+.reportDiv:hover .tooltiptextpreviewocr {
+    visibility: visible;
+    opacity: 1;
+}
+
+.reportDiv .tooltiptextdownloadocr {
+    visibility: hidden;
+    width: 130px;
+    background-color: black;
+    color: white;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -100px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.reportDiv:hover .tooltiptextdownloadocr {
+    visibility: visible;
+    opacity: 1;
+}
+
+.reportDiv .tooltiptextdownloadcompare {
+    visibility: hidden;
+    width: 130px;
+    background-color: black;
+    color: white;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -100px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.reportDiv:hover .tooltiptextdownloadcompare {
+    visibility: visible;
+    opacity: 1;
+}
+
+.mobileLinks .mobilelinkHeader h1 {
+    text-align: center;
+    margin: 10px 20px;
+    font-size: 24px;
+    text-decoration: underline;
+}
+
+.mobilelinkBodyouter {
+    position: relative;
+    overflow-y: scroll;
+    height: 90%;
+}
+
+.report-display {
+    margin: 10px;
+}
+
+.report-display li {
+    list-style: none;
+    margin: 10px 0;
+}
+
+.report-display .reportDiv {
+    cursor: pointer;
+    margin: 0 10px;
+}
+
+.report-display .reportDiv p,
+.report-display .reportDiv svg {
+    cursor: pointer;
+}
+
+.report-display .truncate-txt {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 280px;
+    /* Adjust as needed */
+}
+
+.report-display li,
+ol li {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 5px;
+    /* Optional: Add padding for spacing */
+    margin-bottom: 5px;
+    /* Optional: Add margin for spacing */
+}
+
+.report-display li:last-child,
+ol li:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+    /* Reset padding for the last item */
+    margin-bottom: 0;
+    /* Reset margin for the last item */
+}
+
+.report-display .report-label {
+    margin: 0 10px;
+    width: 80%;
+}
+
+.report-display .report-inner-li {
+    display: flex;
+}

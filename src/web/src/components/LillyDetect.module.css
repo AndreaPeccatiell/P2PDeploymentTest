@@ -1,0 +1,830 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background-color: #fff;
+  overflow-y: auto;
+  overflow-x: hidden;
+  width: 100%;
+  height: 100vh; 
+  box-sizing: border-box;
+  padding: 2vw;
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px; /* Standard base font size */
+  color: #000; /* Set the default text color */
+}
+
+.rectangleContent {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.scrollContainer {
+  overflow-y: auto;
+  max-height: 400px;
+}
+
+.rectangle369 {
+  position: absolute;
+  left: 44px;
+  top: 473px;
+  width: 380px;
+  height: 539px;
+  border-radius: 40px;
+  background-color: #89190a;
+  overflow-y: auto; /* Adjusted overflow property */
+}
+.rectangleLinguistic {
+  position: absolute;
+  left: 0;
+  top: 45px;
+  width: 420px;
+  height: 100%;
+  background-color: #ac2e2e;
+
+  display: flex;
+  flex-direction: column; /* Arrange children vertically */
+  justify-content: space-between; /* Space items with the button at the bottom */
+  padding: 20px; /* Optional: Adjust padding as needed */
+  box-sizing: border-box; /* Include padding in width and height */
+}
+.rectangle365 {
+    position: absolute;
+    right: 0;
+    top: 45px;
+    width: 420px;
+    height: 100%;
+    background-color: #ac2e2e;
+
+    display: flex;
+    flex-direction: column; /* Arrange children vertically */
+    justify-content: space-between; /* Space items with the button at the bottom */
+    padding: 20px; /* Optional: Adjust padding as needed */
+    box-sizing: border-box; /* Include padding in width and height */
+}
+
+.semanticTheAdjectivesWordsNoun {
+  position: absolute;
+  left: 80px;
+  top: 685px;
+  width: min-content;
+  height: min-content;
+  white-space: nowrap;
+  flex-direction: column;
+}
+.textBlock {
+  color: #fff;
+  font-size: 15px;
+  line-height: 1.5;
+  font-weight: 400;
+  font-family: Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+}
+.labelWrapper {
+  font-size: 15px;
+  font-family: Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+  flex-shrink: 1;
+}
+.label {
+  color: #fff;
+  font-size: 15px;
+  line-height: 1.5;
+  font-family: Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+}
+.textBlock2 {
+  color: #fff;
+  font-size: 15px;
+  line-height: 1.5;
+  font-family: Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+}
+.grammarThereAreSeveralMispelli {
+  position: absolute;
+  left: 80px;
+  top: 612px;
+  width: min-content;
+  height: min-content;
+  white-space: nowrap;
+  flex-direction: column;
+}
+.textBlock3 {
+  color: #fff;
+  font-size: 15px;
+  line-height: 1.5;
+  font-weight: 400;
+  font-family: Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+}
+.labelWrapper2 {
+  font-size: 15px;
+  font-family: Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+  flex-shrink: 1;
+}
+.label2 {
+  color: #fff;
+  font-size: 15px;
+  line-height: 100%;
+  font-family: Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+}
+.textBlock4 {
+  color: #fff;
+  font-size: 15px;
+  line-height: 100%;
+  font-family: Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+}
+.rectangle368 {
+  position: absolute;
+  left: 44px;
+  top: 389px;
+  width: 381px;
+  height: 59px;
+  border-radius: 40px;
+  background-color: #89190a;
+}
+.cyberPatterns {
+  color: #fff;
+  font-size: 22px;
+  line-height: 100%;
+  font-weight: 600;
+  font-family: Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+  position: absolute;
+  left: 80px;
+  top: 403px;
+  width: min-content;
+  height: min-content;
+  white-space: nowrap;
+  flex-direction: column;
+}
+.icRoundAdd {
+  position: absolute;
+  left: 376px;
+  top: 401px;
+  width: 24px;
+  height: 24px;
+}
+.icon {
+  width: 100%;
+  height: 100%;
+}
+.rectangle367 {
+  position: absolute;
+  left: 44px;
+  top: 307px;
+  width: 381px;
+  height: 59px;
+  border-radius: 40px;
+  background-color: #89190a;
+}
+.layout {
+  color: #fff;
+  font-size: 22px;
+  line-height: 100%;
+  font-weight: 600;
+  font-family: Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+  position: absolute;
+  left: 80px;
+  top: 322px;
+  width: min-content;
+  height: min-content;
+  white-space: nowrap;
+  flex-direction: column;
+}
+.icRoundAdd2 {
+  position: absolute;
+  left: 376px;
+  top: 321px;
+  width: 24px;
+  height: 24px;
+}
+.icon2 {
+  width: 100%;
+  height: 100%;
+}
+.rectangle363 {
+  position: absolute;
+  left: 390px;
+  top: 0;
+  width: 100%;
+  height: 122px;
+  background-color: #ac2e2e;
+}
+.icon3 {
+  width: 100%;
+  height: 100%;
+}
+.lILLYDETECT {
+  position: absolute;
+  left: 54px;
+  top: 52px;
+  width: min-content;
+  height: min-content;
+  white-space: nowrap;
+  flex-direction: column;
+}
+.labelWrapper3 {
+  font-size: 26px;
+  font-family: Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+  flex-shrink: 1;
+}
+.label3 {
+  color: #fff;
+  font-size: 26px;
+  line-height: 100%;
+  font-weight: 300;
+  font-family: Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+}
+.label4 {
+  color: #fff;
+  font-size: 30px;
+  line-height: 100%;
+  font-weight: 300;
+  font-family: Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+}
+.label5 {
+  color: #fff;
+  font-size: 26px;
+  line-height: 100%;
+  font-weight: 300;
+  font-family: Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+}
+.separator {
+  position: relative;
+  left: 0;
+  top: 117px;
+  width: 457.0087px;
+  max-width: 100%;
+  height: 5px;
+  max-height: 100%;
+}
+.separator::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: 0 0;
+  transform: rotate(0.5015deg);
+  width: 457.0175px;
+  height: 0;
+  border-bottom: solid 1px #39462c;
+}
+.rulesSection {
+  color: #fff;
+  font-size: 30px;
+  line-height: 100%;
+  font-weight: bold;
+  font-family: Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+  position: absolute;
+  left: 75px;
+  top: 153px;
+  width: 235px;
+  height: 74px;
+  flex-direction: column;
+}
+
+.frame48 {
+  position: absolute;
+  right: 0; /* Correct casing for right alignment */
+  top: 30px; /* Distance from the top of the screen */
+  width: 367px; /* Set the desired width */
+  height: min-content; /* Adjust height automatically */
+  justify-content: center;
+  align-items: center;
+  gap: 10px; /* Space between child elements if any */
+  padding: 10px; /* Padding inside the frame */
+  outline: solid 1px #cedebd; /* Border outline */
+  outline-offset: -1px;
+  border-radius: 40px; /* Rounded corners */
+  background-color: #89190a; /* Background color */
+}
+
+.frame45 {
+  left: 800px;
+  width: 60px;
+  z-index: 0;
+  width: min-content;
+  height: min-content;
+  padding: 15px 50px;
+  border-radius: 80px;
+  background-color: #ac2e2e;
+}
+.frame45bis {
+  left: 300px;
+  z-index: 0;
+  width: min-content;
+  height: min-content;
+  padding: 15px 30px;
+  border-radius: 40px;
+  background-color: #ac2e2e;
+}
+.singlePage {
+  left:200px;
+  width: min-content;
+  height: min-content;
+  white-space: nowrap;
+  flex-direction: column;
+}
+.textBlock5 {
+  color: #fff;
+  font-size: 13px;
+  line-height: 100%;
+  font-weight: 500;
+  font-family: Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+}
+.textBlock6 {
+  margin-top: 0;
+  color: #fff;
+  font-size: 13px;
+  line-height: 100%;
+  font-weight: 500;
+  font-family: Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+}
+.frame46 {
+  z-index: 0;
+  width: min-content;
+  height: min-content;
+  padding: 15px 30px;
+}
+.eMailChain {
+  width: min-content;
+  height: min-content;
+  white-space: nowrap;
+  flex-direction: column;
+}
+.textBlock7 {
+  color: #fff;
+  font-size: 13px;
+  line-height: 100%;
+  font-weight: 500;
+  font-family: Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+}
+.textBlock8 {
+  margin-top: 0;
+  color: #fff;
+  font-size: 13px;
+  line-height: 100%;
+  font-weight: 500;
+  font-family: Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+}
+.frame47 {
+  z-index: 0;
+  width: 108px;
+  height: 43px;
+  justify-content: center;
+  padding: 15px 30px;
+}
+.regenerateResponseButton {
+  position: absolute;
+  left: 44px;
+  bottom: 140px;
+  width: 380px;
+  height: 52px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 0 30px;
+  border-radius: 45px;
+  background-color: #89190a;
+  overflow: hidden;
+}
+.vector {
+  width: 15px;
+  height: 16px;
+  overflow: visible;
+  filter: drop-shadow(0px 32.5px 40.95000076293945px #4318ff47);
+}
+.icon4 {
+  width: 100%;
+  height: 100%;
+}
+.export {
+  color: #fff;
+  font-size: 14px;
+  line-height: 16px;
+  font-weight: 600;
+  font-family: Plus Jakarta Sans, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+  width: min-content;
+  height: min-content;
+  white-space: nowrap;
+  flex-direction: column;
+}
+.input {
+  position: absolute;
+  left: 457px;
+  top: 1052px;
+  width: 913px;
+  height: 54px;
+  flex-direction: column;
+  align-items: flex-start;
+  outline: solid 1px #d6bc97;
+  outline-offset: -1px;
+  border-radius: 5px;
+  background-color: #ffeed6;
+  overflow: hidden;
+}
+.sendAMessage {
+  color: #ba9359;
+  font-size: 14px;
+  line-height: 100%;
+  font-weight: 600;
+  font-family: Plus Jakarta Sans, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  width: min-content;
+  height: min-content;
+  white-space: nowrap;
+  flex-direction: column;
+  transform: translateY(-50%);
+}
+
+
+/* In your CSS file */
+.button {
+  background-color: blue; /* Default background color */
+  color: white; /* Text color */
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s; /* Smooth transition */
+}
+
+.button:hover {
+  background-color: red; /* Background color on hover */
+}
+
+
+.inputLinearScale {
+
+}
+.ruleRow {
+  color: white; /* Set the font color to white */
+  font-size: 1.2em; /* Increase the font size, adjust as needed */
+}
+
+.vendorSummary {
+  color: #fff;
+  font-size: 30px;
+  line-height: 100%;
+  font-weight: bold;
+  font-family: Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+  position: absolute;
+  left: 1564px;
+  top: 153px;
+  width: 235px;
+  height: 74px;
+  flex-direction: column;
+}
+.transcriptSummary {
+  color: #fff;
+  font-size: 30px;
+  line-height: 100%;
+  font-weight: bold;
+  font-family: Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+  position: absolute;
+  left: 1564px;
+  top: 750px;
+  width: 235px;
+  height: 74px;
+  flex-direction: column;
+}
+.domainSummary {
+  color: #fff;
+  font-size: 30px;
+  line-height: 100%;
+  font-weight: bold;
+  font-family: Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+  position: absolute;
+  left: 1564px;
+  top:590px;
+  width: 235px;
+  height: 74px;
+  flex-direction: column;
+}
+.rectangle364 {
+  position: absolute;
+  left: 1358px;
+  top: 1052px;
+  width: 74px;
+  height: 54px;
+  border-radius: 0 10px 10px 0;
+  background-color: #ac2e2e;
+}
+.vector2 {
+  position: absolute;
+  left: 1384.8399px;
+  top: 1069.8398px;
+  width: 19.3203px;
+  height: 19.3203px;
+  overflow: visible;
+}
+.icon5 {
+  width: 100%;
+  height: 100%;
+}
+.regenerateResponseButton2 {
+  position: absolute;
+  left: 544px;
+  top: 943px;
+  width: 315px;
+  height: 70px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 5px;
+  padding: 16px 20px;
+  outline: solid 1px #ba9359;
+  outline-offset: -1px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.regenerateResponseButton4 {
+  position: absolute;
+  left: 874px;
+  top: 943px;
+  width: 315px;
+  height: 70px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 5px;
+  padding: 16px 20px;
+  outline: solid 1px #ba9359;
+  outline-offset: -1px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.regenerateResponseButton7 {
+  position: absolute;
+  left: 874px;
+  top: 1050px;
+  width: 315px;
+  height: 70px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 5px;
+  padding: 16px 20px;
+  outline: solid 1px #ba9359;
+  outline-offset: -1px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+
+
+
+.uploadDocument {
+  color: #435334;
+  font-size: 35px;
+  line-height: 16px;
+  font-weight: 600;
+  font-family: Plus Jakarta Sans, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+  width: min-content;
+  height: min-content;
+  white-space: nowrap;
+  flex-direction: column;
+}
+.fetchDocumentForAnalysis {
+  color: #849771;
+  font-size: 12px;
+  line-height: 16px;
+  font-family: Plus Jakarta Sans, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+  width: min-content;
+  height: min-content;
+  white-space: nowrap;
+  flex-direction: column;
+}
+.regenerateResponseButton3 {
+  position: absolute;
+  left: 911px;
+  top: 943px;
+  width: 315px;
+  height: min-content;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 5px;
+  padding: 16px 20px;
+  outline: solid 1px #ba9359;
+  outline-offset: -1px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.cancel {
+  color: #435334;
+  font-size: 14px;
+  line-height: 16px;
+  font-weight: 600;
+  font-family: Plus Jakarta Sans, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+  width: min-content;
+  height: min-content;
+  white-space: nowrap;
+  flex-direction: column;
+}
+.startANewConversation {
+  color: #849771;
+  font-size: 12px;
+  line-height: 16px;
+  font-family: Plus Jakarta Sans, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+  width: min-content;
+  height: min-content;
+  white-space: nowrap;
+  flex-direction: column;
+}
+.userDetails {
+  color: #fff;
+  font-size: 25px;
+  font-family: Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+  position: absolute;
+  left: 1502px;
+  top: 252px;
+  width: 348px;
+  height: min-content;
+  flex-direction: column;
+}
+.fileInput {
+  opacity: 0;
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+/* Update the button styles */
+.regenerateResponseButton2 {
+  position: relative;
+  overflow: hidden;
+}
+
+.uploadDocument {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+/* Add this to your CSS file (LillyDetect.module.css) */
+.heading {
+  font-family: 'Poppins', sans-serif; /* Use the same font for consistency */
+  font-size: 24px; /* Adjust the size based on your design */
+  font-weight: bold; /* Set the desired font weight */
+  color: #fff; /* Text color */
+  line-height: 1.2; /* Adjust line height for better readability */
+  margin-bottom: 10px; /* Space below the heading */
+}
+
+.frame49 {
+  position:relative;
+  left: 487px;
+  top: 157px;
+  wiDth: 1600px;
+  height: 755px;
+  padding: 20px;
+  display: 'block';
+  flex-direction: 'column';
+  overflow-y: scroll;
+ 
+}
+
+.summaryColumn, .emailColumn {
+  flex: 1 1 auto; /* Each column can grow and shrink as needed */
+  margin: 10px; /* Provides some space between columns */
+  overflow-y: hidden; /* Hides vertical overflow */
+  word-wrap: break-word; /* Ensures long words do not cause overflow */
+  max-height: 100%; /* Ensures columns do not exceed the parent container's height */
+}
+
+.rectangle358 {
+  position: absolute;
+  left: 44px;
+  top: 227px;
+  width: 381px;
+  height: 59px;
+  border-radius: 40px;
+  background-color: #89190a;
+}
+.header {
+  color: #fff;
+  font-size: 22px;
+  line-height: 100%;
+  font-weight: 600;
+  font-family: Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+  position: absolute;
+  left: 80px;
+  top: 244px;
+  width: min-content;
+  height: min-content;
+  white-space: nowrap;
+  flex-direction: column;
+}
+.icRoundAdd3 {
+  position: absolute;
+  left: 376px;
+  top: 247px;
+  width: 24px;
+  height: 24px;
+}
+.icon6 {
+  width: 100%;
+  height: 100%;
+}
+.linguistic {
+  color: #fff;
+  font-size: 22px;
+  line-height: 100%;
+  font-weight: 600;
+  font-family: Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+  position: absolute;
+  left: 80px;
+  top: 408px;
+  padding-top: 50px;
+  width: min-content;
+  height: min-content;
+  white-space: nowrap;
+  flex-direction: column;
+}
+.toneTheToneOfTheUserIsSignific {
+  position: absolute;
+  left: 80px;
+  top: 546px;
+  width: min-content;
+  height: min-content;
+  white-space: nowrap;
+  flex-direction: column;
+}
+.labelWrapper4 {
+  font-size: 15px;
+  font-family: Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+  flex-shrink: 1;
+}
+.label6 {
+  color: #fff;
+  font-size: 15px;
+  line-height: 100%;
+  font-weight: 600;
+  font-family: Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+}
+.label7 {
+  color: #fff;
+  font-size: 15px;
+  line-height: 100%;
+  font-family: Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+}
+.textBlock9 {
+  color: #fff;
+  font-size: 15px;
+  line-height: 100%;
+  font-family: Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+}
+.textBlock10 {
+  color: #fff;
+  font-size: 15px;
+  line-height: 100%;
+  font-family: Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+}
+.rectangle370 {
+  position: absolute;
+  left: 218px;
+  top: 28px;
+  width: 227px;
+  height: 78px;
+  border-radius: 40px;
+  background-image:/* webpackIgnore: true */ url('/assets/rectangle370.jpeg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  box-shadow: 0px 4px 4px 0px #00000040;
+}
