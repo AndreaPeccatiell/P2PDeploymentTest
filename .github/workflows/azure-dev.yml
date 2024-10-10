@@ -30,10 +30,6 @@ jobs:
         with:
           node-version: 18
 
-      # Ensure Browserslist is up to date
-      - name: Update Browserslist database
-        run: npx update-browserslist-db@latest --force
-
       - name: Create .npmrc for Artifactory authentication
         run: |
           echo "registry=https://elilillyco.jfrog.io/elilillyco/api/npm/Lilly-NPM/" > ~/.npmrc
@@ -43,16 +39,20 @@ jobs:
         env:
           ARTIFACTORY_AUTH_TOKEN: ${{ secrets.ARTIFACTORY_AUTH_TOKEN }}
 
-      # Use 'npm ci' for clean install in CI environments
+      # Navigate to the correct directory and update Browserslist
+      - name: Update Browserslist database
+        run: |
+          cd src/web  # Navigate to the directory where package.json exists
+          npx update-browserslist-db@latest --force
+
       - name: Install NPM dependencies
         run: |
           cd src/web  # Navigate to the directory where package.json exists
-          npm ci  # Faster, clean install in CI environments
+          npm ci  # Use clean install in CI environments
 
-      # Build the application, ensuring that CI=false to avoid warnings being treated as errors
       - name: Run NPM build script
         run: |
-          cd src/web
+          cd src/web  # Navigate to the directory where package.json exists
           CI=false npm run build
 
       # Log in with Azure Federated Credentials if available
