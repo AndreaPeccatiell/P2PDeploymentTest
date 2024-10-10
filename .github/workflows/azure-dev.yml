@@ -24,11 +24,15 @@ jobs:
 
       - name: Install azd
         uses: Azure/setup-azd@v1.0.0
-      
+
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
+
+      # Ensure Browserslist is up to date
+      - name: Update Browserslist database
+        run: npx update-browserslist-db@latest --force
 
       - name: Create .npmrc for Artifactory authentication
         run: |
@@ -39,11 +43,19 @@ jobs:
         env:
           ARTIFACTORY_AUTH_TOKEN: ${{ secrets.ARTIFACTORY_AUTH_TOKEN }}
 
+      # Use 'npm ci' for clean install in CI environments
       - name: Install NPM dependencies
         run: |
-          cd src/web  # Change to the directory where package.json exists
-          npm install
+          cd src/web  # Navigate to the directory where package.json exists
+          npm ci  # Faster, clean install in CI environments
 
+      # Build the application, ensuring that CI=false to avoid warnings being treated as errors
+      - name: Run NPM build script
+        run: |
+          cd src/web
+          CI=false npm run build
+
+      # Log in with Azure Federated Credentials if available
       - name: Log in with Azure (Federated Credentials)
         if: ${{ env.AZURE_CLIENT_ID != '' }}
         run: |
@@ -53,12 +65,12 @@ jobs:
             --tenant-id "$Env:AZURE_TENANT_ID"
         shell: pwsh
 
+      # Log in with Azure Client Credentials if Federated Credentials are not used
       - name: Log in with Azure (Client Credentials)
         if: ${{ env.AZURE_CREDENTIALS != '' }}
         run: |
           $info = $Env:AZURE_CREDENTIALS | ConvertFrom-Json -AsHashtable;
           Write-Host "::add-mask::$($info.clientSecret)"
-
           azd auth login `
             --client-id "$($info.clientId)" `
             --client-secret "$($info.clientSecret)" `
@@ -67,6 +79,7 @@ jobs:
         env:
           AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
 
+      # Provision Infrastructure
       - name: Provision Infrastructure
         run: azd provision --no-prompt
         env:
@@ -74,6 +87,7 @@ jobs:
           AZURE_LOCATION: ${{ vars.AZURE_LOCATION }}
           AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
 
+      # Deploy the Application
       - name: Deploy Application
         run: azd deploy --no-prompt
         env:
