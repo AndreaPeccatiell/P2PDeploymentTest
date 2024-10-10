@@ -1,17 +1,10 @@
 on:
   workflow_dispatch:
   push:
-    # Run when commits are pushed to mainline branch (main or master)
-    # Set this to the mainline branch you are using
     branches:
       - main
       - master
 
-# GitHub Actions workflow to deploy to Azure using azd
-# To configure required secrets for connecting to Azure, simply run `azd pipeline config`
-
-# Set up permissions for deploying with secretless Azure federated credentials
-# https://learn.microsoft.com/en-us/azure/developer/github/connect-from-azure?tabs=azure-portal%2Clinux#set-up-azure-login-with-openid-connect-authentication
 permissions:
   id-token: write
   contents: read
@@ -32,10 +25,22 @@ jobs:
       - name: Install azd
         uses: Azure/setup-azd@v1.0.0
       
-      - name: Install Nodejs
+      - name: Install Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
+
+      - name: Create .npmrc for Artifactory authentication
+        run: |
+          echo "registry=https://elilillyco.jfrog.io/elilillyco/api/npm/Lilly-NPM/" > ~/.npmrc
+          echo "always-auth=true" >> ~/.npmrc
+          echo "//elilillyco.jfrog.io/elilillyco/api/npm/Lilly-NPM/:_auth=${{ secrets.ARTIFACTORY_AUTH_TOKEN }}" >> ~/.npmrc
+          echo "email=andrea.peccatiello@lilly.com" >> ~/.npmrc
+        env:
+          ARTIFACTORY_AUTH_TOKEN: ${{ secrets.ARTIFACTORY_AUTH_TOKEN }}
+
+      - name: Install NPM dependencies
+        run: npm install
 
       - name: Log in with Azure (Federated Credentials)
         if: ${{ env.AZURE_CLIENT_ID != '' }}
