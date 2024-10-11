@@ -4,24 +4,25 @@
     },
     "Environment": {
         "dev": {
-            "API_URL": "https://4ccfk7q5n9.execute-api.us-east-2.amazonaws.com/Dev", 
-            "clientId": "9b967b1e-6ad3-4d79-9916-b543f2f6c5ce",
+            "API_URL": "p2p-node-persona.azurewebsites.net/api/authMeFunction",  
+            "clientId": "ab0165a7-85b2-4812-a46c-165413a910c6",
             "scopes": [
                 "api://39b64b04-e385-4232-a4e2-604367e2d849/ApiGateway"
             ],
             "groups": {}
         },
         "prod": {
-            "API_URL": "https://vfmogqq2oc.execute-api.us-east-2.amazonaws.com/Prod",
-            "clientId": "e0b819f0-49df-4bec-8fde-1cb4791b773e",
+            "API_URL": "p2p-node-persona.azurewebsites.net/authMe", 
+            "clientId": "ab0165a7-85b2-4812-a46c-165413a910c6",
             "scopes": [
                 "api://39b64b04-e385-4232-a4e2-604367e2d849/ApiGateway"
             ],
             "groups": {}
         },
         "qa": {
-            "API_URL": "https://e7gmllnl27.execute-api.us-east-2.amazonaws.com/QA",
-            "clientId": "5fe3da10-51ed-421f-b242-69b1300bb5d0",
+            "API_URL": "p2p-node-persona.azurewebsites.net/authMe", 
+            "FAST_API_URL": "https://v0zsm59ztb.execute-api.us-east-2.amazonaws.com", 
+            "clientId": "ab0165a7-85b2-4812-a46c-165413a910c6",
             "scopes": [
                 "api://39b64b04-e385-4232-a4e2-604367e2d849/ApiGateway"
             ],

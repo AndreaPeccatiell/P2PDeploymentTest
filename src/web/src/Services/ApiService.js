@@ -5,7 +5,7 @@ class ApiService {
     async fetchPersona(onComplete, onError) {
         const env = Utils.getEnvVars();
         let endpoint = env.API_URL;
-        let url = endpoint + "/auth/me";        
+        let url = endpoint + "";        
         console.log(url)   
         // const authClaim = await AuthProviderService.getClaims();   
         // const queryParams = {
