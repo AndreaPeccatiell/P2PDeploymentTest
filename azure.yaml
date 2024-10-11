@@ -11,7 +11,7 @@ workflows:
 services:
   web:
     project: ./src/web
-    dist: dist
+    dist: build
     language: js
     host: appservice
     hooks:
