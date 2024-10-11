@@ -53,7 +53,7 @@ jobs:
       - name: Run NPM build script
         run: |
           cd src/web  # Navigate to the directory where package.json exists
-          CI=false npm run build
+          CI=false npm run build  # Disable ESLint checks in build process
 
       # Log in with Azure Federated Credentials if available
       - name: Log in with Azure (Federated Credentials)
