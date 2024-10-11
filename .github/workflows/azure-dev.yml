@@ -55,10 +55,6 @@ jobs:
           cd src/web  # Navigate to the directory where package.json exists
           npm run build  # Disable ESLint checks in build process
 
-      - name: Verify dist directory
-        run: |
-          cd src/web
-           ls -la dist  # Ensure build files exist in dist directory
 
       # Log in with Azure Federated Credentials if available
       - name: Log in with Azure (Federated Credentials)
