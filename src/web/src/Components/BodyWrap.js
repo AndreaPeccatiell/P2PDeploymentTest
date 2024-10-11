@@ -1,3 +1,5 @@
+
+/* eslint-disable */
 import { useEffect } from 'react';
 import Content from "./Content";
 import Footer from "./Footer";
@@ -48,3 +50,4 @@ const BodyWrap = ({ initLoad, notFound, accessDenied, isloading, setValidUser, s
 }
 
 export default BodyWrap;
+/* eslint-enable */

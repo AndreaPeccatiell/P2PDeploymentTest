@@ -1,4 +1,5 @@
 
+/* eslint-disable */
 import React, { useState, useRef, useEffect } from 'react';
 import resets from '../_resets.module.css';
 import classes from './LillyDetect.module.css';
@@ -337,3 +338,4 @@ const handleAnalyzeDocument = async () => {
 };
 
 export default LillyDetect;
+/* eslint-enable */

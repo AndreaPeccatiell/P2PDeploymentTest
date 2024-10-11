@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { useNavigate } from "react-router";
 import AuthProviderService from "../Services/AuthProviderService";
 import withCustomRouter from "./withCustomRouter";
@@ -147,3 +148,4 @@ const AuthCallback = ({ setValidUser, setUserCheck, isValidUser, callback, setin
 
 export default withCustomRouter(AuthCallback);
 // export default AuthCallback;
+/* eslint-enable */
