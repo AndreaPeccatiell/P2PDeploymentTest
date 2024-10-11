@@ -34,7 +34,4 @@ services:
         posix:
           shell: sh
           run: 'rm .env.local'
-  api:
-    project: ./src/api
-    language: js
-    host: appservice
+
