@@ -58,7 +58,7 @@ jobs:
       - name: Verify dist directory
         run: |
           cd src/web
-          ls -la dist  # Ensure build files exist in dist directory
+           ls -la dist  # Ensure build files exist in dist directory
 
       # Log in with Azure Federated Credentials if available
       - name: Log in with Azure (Federated Credentials)
