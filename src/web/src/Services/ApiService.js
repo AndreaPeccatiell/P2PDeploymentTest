@@ -1,4 +1,4 @@
-import Utils from "../Common/Utils";
+
 import AuthProviderService from "./AuthProviderService";
 
 class ApiService {
