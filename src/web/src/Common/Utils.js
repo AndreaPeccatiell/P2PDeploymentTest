@@ -21,7 +21,7 @@ class UtilsWrap {
   }
 
   getEnvVars() {
-    const env = this.getCurrentEnv();
+    const env = 'dev';
     const envVariables = Object.assign({}, Environment);
     return envVariables[env];
   }
