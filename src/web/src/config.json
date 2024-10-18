@@ -12,7 +12,7 @@
             "groups": {}
         },
         "prod": {
-            "API_URL": "p2p-node-persona.azurewebsites.net/authMe", 
+            "API_URL": "p2p-node-persona.azurewebsites.net/api/authMeFunction", 
             "clientId": "ab0165a7-85b2-4812-a46c-165413a910c6",
             "scopes": [
                 "api://39b64b04-e385-4232-a4e2-604367e2d849/ApiGateway"
@@ -20,8 +20,7 @@
             "groups": {}
         },
         "qa": {
-            "API_URL": "p2p-node-persona.azurewebsites.net/authMe", 
-            "FAST_API_URL": "https://v0zsm59ztb.execute-api.us-east-2.amazonaws.com", 
+            "API_URL": "p2p-node-persona.azurewebsites.net/api/authMeFunction", 
             "clientId": "ab0165a7-85b2-4812-a46c-165413a910c6",
             "scopes": [
                 "api://39b64b04-e385-4232-a4e2-604367e2d849/ApiGateway"

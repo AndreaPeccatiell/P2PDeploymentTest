@@ -1,10 +1,10 @@
-import Utils from "../Common/Utils";
+
 import AuthProviderService from "./AuthProviderService";
 
 class ApiService {
     async fetchPersona(onComplete, onError) {
-        const env = Utils.getEnvVars();
-        let endpoint = env.API_URL;
+        
+        let endpoint = "https://p2p-node-persona.azurewebsites.net/api/authMeFunction";
         let url = endpoint + "";        
         console.log(url)   
         // const authClaim = await AuthProviderService.getClaims();   
