@@ -39,39 +39,22 @@ jobs:
         env:
           ARTIFACTORY_AUTH_TOKEN: ${{ secrets.ARTIFACTORY_AUTH_TOKEN }}
 
-      # Clear npm cache to avoid stale dependencies
-      - name: Clear npm cache
+      # Remove package-lock.json and node_modules
+      - name: Clean up node_modules and package-lock.json
         run: |
-          cd src/web
-          npm cache clean --force
-
-      # Delete package-lock.json to regenerate it
-      - name: Delete package-lock.json
-        run: |
-          cd src/web
+          rm -rf node_modules
           rm -f package-lock.json
 
-      # Install latest caniuse-lite and force update
-      - name: Install latest caniuse-lite
-        run: |
-          cd src/web
-          npm install caniuse-lite@latest --force
-
-      # Update Browserslist database
-      - name: Update Browserslist database
-        run: |
-          cd src/web  # Navigate to the directory where package.json exists
-          npx update-browserslist-db@latest --force
-
+      # Install dependencies and regenerate lock file
       - name: Install NPM dependencies
         run: |
           cd src/web  # Navigate to the directory where package.json exists
-          npm ci  # Use clean install in CI environments
+          npm install
 
       - name: Run NPM build script
         run: |
           cd src/web  # Navigate to the directory where package.json exists
-          npm run build  # Disable ESLint checks in build process
+          npm run build
 
       # Log in with Azure Federated Credentials if available
       - name: Log in with Azure (Federated Credentials)
