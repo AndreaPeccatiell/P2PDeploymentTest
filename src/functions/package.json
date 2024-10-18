@@ -1,0 +1,16 @@
+{
+  "name": "myfunctionapp",
+  "version": "1.0.0",
+  "description": "Azure Function app for auth",
+  "main": "authMeFunction/index.js",
+  "dependencies": {
+    "@azure/functions": "^4.5.1",
+    "@azure/identity": "^4.4.1",
+    "@microsoft/microsoft-graph-client": "^3.0.7",
+    "jsonwebtoken": "^9.0.2",
+    "path": "^0.12.7"
+  },
+  "scripts": {
+    "start": "func start"
+  }
+}
