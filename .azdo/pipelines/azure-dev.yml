@@ -1,56 +1,110 @@
-# Run when commits are pushed to mainline branch (main or master)
-# Set this to the mainline branch you are using
-trigger:
-  - main
-  - master
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - master
 
-# Azure Pipelines workflow to deploy to Azure using azd
-# To configure required secrets and service connection for connecting to Azure, simply run `azd pipeline config --provider azdo`
-# Task "Install azd" needs to install setup-azd extension for azdo - https://marketplace.visualstudio.com/items?itemName=ms-azuretools.azd
-# See below for alternative task to install azd if you can't install above task in your organization
+permissions:
+  id-token: write
+  contents: read
 
-pool:
-  vmImage: ubuntu-latest
-
-steps:
-  - task: setup-azd@0 
-    displayName: Install azd
-
-  # If you can't install above task in your organization, you can comment it and uncomment below task to install azd
-  # - task: Bash@3
-  #   displayName: Install azd
-  #   inputs:
-  #     targetType: 'inline'
-  #     script: |
-  #       curl -fsSL https://aka.ms/install-azd.sh | bash
-
-  # azd delegate auth to az to use service connection with AzureCLI@2
-  - pwsh: |
-      azd config set auth.useAzCliAuth "true"
-    displayName: Configure AZD to Use AZ CLI Authentication.
-
-  - task: AzureCLI@2
-    displayName: Provision Infrastructure
-    inputs:
-      azureSubscription: azconnection
-      scriptType: bash
-      scriptLocation: inlineScript
-      inlineScript: |
-        azd provision --no-prompt
+jobs:
+  build:
+    runs-on: ubuntu-latest
     env:
-      AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
-      AZURE_ENV_NAME: $(AZURE_ENV_NAME)
-      AZURE_LOCATION: $(AZURE_LOCATION)
+      AZURE_CLIENT_ID: ${{ vars.AZURE_CLIENT_ID }}
+      AZURE_TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
+      AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+      AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+      AZURE_RESOURCE_GROUP: rg-qa
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-  - task: AzureCLI@2
-    displayName: Deploy Application
-    inputs:
-      azureSubscription: azconnection
-      scriptType: bash
-      scriptLocation: inlineScript
-      inlineScript: |
-        azd deploy --no-prompt
-    env:
-      AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
-      AZURE_ENV_NAME: $(AZURE_ENV_NAME)
-      AZURE_LOCATION: $(AZURE_LOCATION)
+      - name: Install azd
+        uses: Azure/setup-azd@v1.0.0
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Create .npmrc for Artifactory authentication
+        run: |
+          echo "registry=https://elilillyco.jfrog.io/elilillyco/api/npm/Lilly-NPM/" > ~/.npmrc
+          echo "always-auth=true" >> ~/.npmrc
+          echo "//elilillyco.jfrog.io/elilillyco/api/npm/Lilly-NPM/:_auth=${{ secrets.ARTIFACTORY_AUTH_TOKEN }}" >> ~/.npmrc
+          echo "email=andrea.peccatiello@lilly.com" >> ~/.npmrc
+        env:
+          ARTIFACTORY_AUTH_TOKEN: ${{ secrets.ARTIFACTORY_AUTH_TOKEN }}
+
+      # Navigate to the correct directory and update Browserslist
+      - name: Update Browserslist database
+        run: |
+          cd src/web  # Navigate to the directory where package.json exists
+          npx update-browserslist-db@latest --force
+
+      # Clear npm cache to resolve versioning issues
+      - name: Clear npm cache
+        run: |
+          cd src/web  # Ensure we're in the correct directory
+          npm cache clean --force
+
+      # Install latest caniuse-lite to resolve the invalid version error
+      - name: Install latest caniuse-lite
+        run: |
+          cd src/web
+          npm install caniuse-lite@latest --force
+
+      # Install NPM dependencies
+      - name: Install NPM dependencies
+        run: |
+          cd src/web  # Navigate to the directory where package.json exists
+          npm ci  # Use clean install in CI environments
+
+      - name: Run NPM build script
+        run: |
+          cd src/web  # Navigate to the directory where package.json exists
+          npm run build  # Disable ESLint checks in build process
+
+      # Log in with Azure Federated Credentials if available
+      - name: Log in with Azure (Federated Credentials)
+        if: ${{ env.AZURE_CLIENT_ID != '' }}
+        run: |
+          azd auth login `
+            --client-id "$Env:AZURE_CLIENT_ID" `
+            --federated-credential-provider "github" `
+            --tenant-id "$Env:AZURE_TENANT_ID"
+        shell: pwsh
+
+      # Log in with Azure Client Credentials if Federated Credentials are not used
+      - name: Log in with Azure (Client Credentials)
+        if: ${{ env.AZURE_CREDENTIALS != '' }}
+        run: |
+          $info = $Env:AZURE_CREDENTIALS | ConvertFrom-Json -AsHashtable;
+          Write-Host "::add-mask::$($info.clientSecret)"
+          azd auth login `
+            --client-id "$($info.clientId)" `
+            --client-secret "$($info.clientSecret)" `
+            --tenant-id "$($info.tenantId)"
+        shell: pwsh
+        env:
+          AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+
+      # Provision Infrastructure
+      - name: Provision Infrastructure
+        run: azd provision --no-prompt
+        env:
+          AZURE_ENV_NAME: ${{ vars.AZURE_ENV_NAME }}
+          AZURE_LOCATION: ${{ vars.AZURE_LOCATION }}
+          AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+
+      # Deploy the Application
+      - name: Deploy Application
+        run: azd deploy --no-prompt
+        env:
+          AZURE_ENV_NAME: ${{ vars.AZURE_ENV_NAME }}
+          AZURE_LOCATION: ${{ vars.AZURE_LOCATION }}
+          AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+          AZURE_RESOURCE_GROUP: ${{ env.AZURE_RESOURCE_GROUP }}
