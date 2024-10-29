@@ -4,3 +4,4 @@ azure-storage-blob
 langchain
 extract-msg
 pytest
+langchain_openai==<latest_version>
