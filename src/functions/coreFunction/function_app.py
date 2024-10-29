@@ -9,7 +9,7 @@ from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
 from extract_msg import Message  # Library to process .msg files
 from email import message_from_bytes  # For handling .eml files
-
+import time
 # Azure Functions App initialization
 app = func.FunctionApp()
 
@@ -22,6 +22,7 @@ endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")
 
 # Azure Blob Storage connection string from environment variables
 connection_string = os.getenv("AZURE_BLOB_STORAGE_CONNECTION_STRING")
+print(f"Tenant ID: {tenant_id}, Client ID: {client_id}, Client Secret: {client_secret}")
 
 # Authentication using ClientSecretCredential and Azure AD token provider
 credential = ClientSecretCredential(tenant_id, client_id, client_secret)
@@ -37,12 +38,17 @@ llm = AzureChatOpenAI(
 
 # Prompt template for report generation
 report_template = """You have been provided Data and Metadata on multiple emails below. 
-You also have been provided with a set of rules, which has been defined by the user.
+You also have been provided with a set of rules, which has been defined by the user. You can help only Eli Lilly employees. Therefore, assess only the conversations that involve Eli Lilly employees communicating with third parties, and ignore internal Eli Lilly-only communications.
 
-Question: Compare the most recent email (Email 1) with the other ones defined in the Data, by using the rules defined in the Rule. For each rule, associate a grade going from 1 to 5 to assess the severity of the rule. Return a table with the following data, considering the exception for Rule16: 
+Question: Compare the most recent email (Email 1) with the other ones defined in the Data, by using the rules defined in the Rule. For each rule, associate a severity grade based on the following guidelines:
+- 1-2: No significant difference found, not enough evidence to trigger concern.
+- 3: There is some evidence of a trigger, but it may not be definitive.
+- 4-5: Clear evidence of the trigger, strong indication that the rule applies.
+
+Return a table with the following data, considering the exception for Rule16:
 Column 1 name = Rule_name. Column 1 entries = [Rule1,Rule2,Rule3,Rule4,Rule5,Rule6,Rule7,Rule8,Rule9,Rule10,Rule11,Rule12,Rule13,Rule14,Rule15,Rule16,Rule17,Rule18,Rule19,Rule20,Rule21,Rule22,Rule23].
 Column 2 name = Rule ratio. Column 2 entries = The corresponding value for the rule. Rule 16 : "Email Layout Analysis"
-Column 3 name = Severity. Column 3 entries = The grade you are assigning to that specific rule. Rule16 : "5"
+Column 3 name = Severity. Column 3 entries = The grade you are assigning to that specific rule, based on the severity guidelines provided. Rule16 : "5"
 Column 4 name = Explanation. Explanation on the rule used for the comparison. Rule16: "The corpus of the email shows a higher variance of font styling, padding, white spaces, indicating possibly fraudulent activity"
 Column 5 name = Reference in the email. For each rule, you need to consider the sentence or the piece of text that is making the rule trigger. You need to COPY AND PASTE the piece of text, related to Email 3, that is making the rule trigger. If not present, just type "not available". Rule16: "Not Available"
 Column 6 name = Category. Column 6 entries = ["Tone Difference", "Urgency", "Formal Title", "Technicality", "Term Diversity", "Syntax Complexity", "VerbsDifference", "Mispelling", "Language Precision", "Personalization", "Word discrepancy", "Email Formatting", "Email structure", "Signature Inconsistencies", "Email variation", "Sentence Analysis", "Layout Analysis", "TimeStamp", "DayReceived"]
@@ -59,30 +65,34 @@ Rules: {rules}
 Metadata: {metadata}
 """
 
+
 # Create the prompt template object
 report_prompt = PromptTemplate.from_template(report_template)
 
-# Function to generate a report using LLM
 def generate_report(data, rules, metadata, blob_service_client, container_name):
     try:
         # Use the LLM to generate a report using the given data, rules, and metadata
+        print("Running LLMChain...")
         chain = LLMChain(llm=llm, prompt=report_prompt)
         generated_report = chain.run({"data": data, "rules": rules, "metadata": metadata})
+        print("Generated report:", generated_report)
 
-        # Log the generated report for debugging
-        logging.info(f"Generated report: {generated_report}")
-
+        # Ensure the generated report is not None or empty
+        if not generated_report:
+            print("Report generation failed or returned empty data.")
+            raise ValueError("LLMChain failed to generate a valid report.")
+        
         # Upload the generated report to Azure Blob Storage
+        print("Uploading generated report to Blob Storage...")
         report_blob_name = "generated_report.csv"
         report_blob_client = blob_service_client.get_blob_client(container=container_name, blob=report_blob_name)
         report_blob_client.upload_blob(generated_report, overwrite=True)
-        logging.info(f"Report uploaded to {report_blob_name}")
-
+        print("Upload completed.")
+        
     except Exception as ex:
         logging.error(f"An error occurred while generating the report: {str(ex)}")
         raise
 
-# Blob-triggered function to process multiple uploaded email files
 @app.function_name(name="process_multiple_emails")
 @app.blob_trigger(arg_name="myblob", 
                   path="test/{blobname}",  # Trigger on all files in the 'test' container
@@ -144,6 +154,11 @@ def process_multiple_emails(myblob: func.InputStream):
                 logging.error(f"Error processing .eml file: {e}")
                 raise
 
+        # New Rule: Check if "lilly.com" is present in the From or To fields
+        if "lilly.com" not in email_from and "lilly.com" not in email_to:
+            logging.info(f"Email {myblob.name} does not contain 'lilly.com' in the From or To fields. Skipping processing.")
+            return  # Exit the function if "lilly.com" is not present
+
         # Format the email content for data.txt
         email_number = myblob.name.split('/')[-1].replace('.msg', '').replace('.eml', '').split(' ')[1]  # Extract email number
         email_text = f"Email {email_number}: {email_subject}\nFrom: {email_from}\nSent: {email_date}\nTo: {email_to}\n\n{email_body}\n\n"
@@ -199,3 +214,62 @@ def process_multiple_emails(myblob: func.InputStream):
     except Exception as ex:
         logging.error(f"An error occurred while processing the blob: {str(ex)}")
         raise
+
+
+def upload_email_file(req: func.HttpRequest) -> func.HttpResponse:
+    try:
+        # Get the uploaded file from the request body
+        file = req.get_body()
+        file_name_header = req.headers.get('File-Name', '')  # Get the filename from the request headers
+
+        # Check if the file content is empty
+        if not file:
+            return func.HttpResponse("No file uploaded.", status_code=400)
+
+        # Check for valid file types (.eml or .msg)
+        if not (file_name_header.endswith('.eml') or file_name_header.endswith('.msg')):
+            return func.HttpResponse("Invalid file type. Only .eml and .msg files are allowed.", status_code=400)
+
+        # Check if "lilly.com" is present in From or To fields
+        email_content = file.decode('utf-8')
+        if "lilly.com" not in email_content:
+            return func.HttpResponse(f"Email {file_name_header} does not contain 'lilly.com' in the From or To fields. Skipping processing.", status_code=400)
+
+        # Initialize the BlobServiceClient
+        connection_string = os.getenv("AZURE_BLOB_STORAGE_CONNECTION_STRING")
+        blob_service_client = BlobServiceClient.from_connection_string(connection_string)
+        container_name = "test"
+        blob_client = blob_service_client.get_blob_client(container=container_name, blob=file_name_header)
+        
+        # Upload the file to Blob Storage
+        blob_client.upload_blob(file, overwrite=True)
+
+        return func.HttpResponse(f"File {file_name_header} uploaded successfully.", status_code=200)
+
+    except Exception as ex:
+        logging.error(f"Error processing file upload: {str(ex)}")
+        return func.HttpResponse(f"Error: {str(ex)}", status_code=500)
+
+
+
+def delete_all_blobs_after_delay(container_name: str, delay_seconds: int = 20):
+    try:
+        # Wait for the specified delay
+        time.sleep(delay_seconds)
+
+        # Initialize the BlobServiceClient
+        connection_string = os.getenv("AZURE_BLOB_STORAGE_CONNECTION_STRING")
+        blob_service_client = BlobServiceClient.from_connection_string(connection_string)
+        container_client = blob_service_client.get_container_client(container_name)
+
+        # List and delete all blobs in the container
+        blob_list = container_client.list_blobs()
+        for blob in blob_list:
+            blob_client = container_client.get_blob_client(blob.name)
+            blob_client.delete_blob()
+            print(f"Deleted blob: {blob.name}")
+
+        print(f"All blobs in container '{container_name}' have been deleted.")
+
+    except Exception as ex:
+        print(f"Error deleting blobs: {str(ex)}")
