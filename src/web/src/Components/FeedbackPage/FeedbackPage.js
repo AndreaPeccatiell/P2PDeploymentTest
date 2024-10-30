@@ -11,11 +11,8 @@ import { Rectangle360Icon } from './Rectangle360Icon.tsx';
 import { InputLinearScale } from './InputLinearScale/InputLinearScale.tsx';
 import { TextElementsQuestionText } from './TextElementsQuestionText/TextElementsQuestionText.tsx';
 
-interface Props {
-  className?: string;
-}
 
-export const FeedbackPage: FC<Props> = memo(function FeedbackPage(props = {}) {
+function FeedbackPage({ props }) {
   const rules = Array.from({ length: 15 }, (_, i) => ({
     ruleNumber: i + 1,
     date: '01.10.21',
@@ -85,4 +82,6 @@ export const FeedbackPage: FC<Props> = memo(function FeedbackPage(props = {}) {
       <div className={classes.rectangle370}></div>
     </div>
   );
-});
+};
+
+export default FeedbackPage

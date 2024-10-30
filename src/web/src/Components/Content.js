@@ -88,25 +88,36 @@ function LillyDetect({ props }) {
   };
   
 
-  const handleFileChange = (event) => {
-    if (event.target.files && event.target.files[0]) {
-      const file = event.target.files[0];
+  const handleFileChange = async (event) => {
+    const files = event.target.files;
   
-      // If you want to read the file content
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const content = e.target.result;
-        setUploadedContent(content); // Assuming setUploadedContent updates state with the file's content
-        // Optionally, you could also store the file name or other properties
-      };
-      reader.readAsText(file);
+    // Ensure at least two files are selected
+    if (!files || files.length < 2) {
+      alert("Please select at least two files.");
+      return;
+    }
   
-      // If you just want to store the file for later upload
-      // setUploadedFile(file); // Assuming setUploadedFile updates state with the File object
-    } else {
-      console.log("No file selected.");
+    try {
+      // Iterate over selected files and upload each one
+      for (let file of files) {
+        const formData = new FormData();
+        formData.append("file", file); // Add file to the form data
+  
+        await axios.post("/api/upload_email", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            "File-Name": file.name // Add custom header for the file name
+          }
+        });
+      }
+  
+      alert("Files uploaded successfully.");
+    } catch (error) {
+      console.error("Error uploading files:", error);
+      alert("Failed to upload files.");
     }
   };
+  
   const fetchMailSummary = () => {
     // Endpoint URL of the Flask API
     const apiURL = 'http://localhost:8000/api/convert-and-download';
@@ -264,6 +275,7 @@ const handleAnalyzeDocument = async () => {
         ref={fileInputRef}
         style={{ display: 'none' }}
         onChange={handleFileChange}
+        multiple
       />
   
         <div className={classes.domainSummary}>Domain tab </div>
