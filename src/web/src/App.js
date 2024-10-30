@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import BodyWrap from './Components/BodyWrap';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import UserLoginProvider from './Services/UserLoginProvider';
-import FeedbackPage from './Components/FeedbackPage/FeedbackPage'
+import { FeedbackPage } from './Components/FeedbackPage/FeedbackPage.tsx'
 
 function App() {
   const [userCheck, setUserCheck] = useState(false)
