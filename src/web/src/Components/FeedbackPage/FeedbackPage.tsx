@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-pascal-case */
+
 import { memo } from 'react';
 import type { FC } from 'react';
 
