@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import BodyWrap from './Components/BodyWrap';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import UserLoginProvider from './Services/UserLoginProvider';
+import FeedbackPage from './Components/FeedbackPage/FeedbackPage'
 
 function App() {
   const [userCheck, setUserCheck] = useState(false)
@@ -40,6 +41,7 @@ function App() {
         <Route path="/auth/accessdenied" element={<BodyWrap accessDenied={true} />} />
         <Route path="/auth/callback" element={<BodyWrap isloading={true} setValidUser={setValidUser} setUserCheck={setUserCheck}  isValidUser={isValidUser} callback={true} setinitLoading={setinitLoading}   initloading={initloading} setValidPersona={setValidPersona} validPersona={validPersona} setpersonaAccess={setpersonaAccess} personaAccess={personaAccess} setuserName={setuserName} userName={userName} />} />
       <Route path="/auth/login" element={<BodyWrap  initLoad={true} />} />
+      <Route path="/feedback-page" element={<FeedbackPage />} />
       </Routes>
       </UserLoginProvider>
     </Router>
